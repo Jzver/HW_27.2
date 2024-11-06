@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-rp_c6&$*ut6)pho-pbs%l()im&0q10d@h%m4^376-wrt@25&1)"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -69,9 +69,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': 'HW_26.1',  # Название БД'
-                'USER': 'postgres',  # Пользователь для подключения
-                'PASSWORD': '220913',  # Пароль для этого пользователя
+                'NAME': os.getenv("POSTGRES_DB"),  # Название БД'
+                'USER': os.getenv("POSTGRES_USER"),  # Пользователь для подключения
+                'PASSWORD': os.getenv("POSTGRES_PASSWORD"),  # Пароль для этого пользователя
                 'HOST': '127.0.0.1',  # Адрес, на котором развернут сервер БД
                 'PORT': 5432,  # Порт, на котором работает сервер БД
                 }
@@ -130,15 +130,15 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
-STRIPE_API_KEY = "pk_test_51PeFk7AhQcegAgB7QeMfrN6EjVdoEHCWmhwIIRipCCzIKAUduledwk71vGff0HHmF8mCEMQWeuqQbP1LIvzJcxKO006uRtuNYC"
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
