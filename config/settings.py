@@ -72,8 +72,8 @@ DATABASES = {
                 'NAME': os.getenv("POSTGRES_DB"),  # Название БД'
                 'USER': os.getenv("POSTGRES_USER"),  # Пользователь для подключения
                 'PASSWORD': os.getenv("POSTGRES_PASSWORD"),  # Пароль для этого пользователя
-                'HOST': '127.0.0.1',  # Адрес, на котором развернут сервер БД
-                'PORT': 5432,  # Порт, на котором работает сервер БД
+                'HOST': os.getenv("HOST"),  # Адрес, на котором развернут сервер БД
+                'PORT': os.getenv("PORT"),  # Порт, на котором работает сервер БД
                 }
 }
 

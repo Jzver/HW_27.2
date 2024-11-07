@@ -1,15 +1,17 @@
-version: "3"
-
 services:
   redis:
     image: redis:latest
     restart: on-failure
     expose:
       - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
   db:
     image: postgres:16-alpine
-
     restart: on-failure
     env_file:
       - .env
@@ -18,7 +20,7 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "-c", "pg_isready -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
       interval: 10s
       retries: 5
       timeout: 5s
@@ -50,6 +52,11 @@ services:
       - app
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
   celery-beat:
     build: .
@@ -64,8 +71,11 @@ services:
       - app
     env_file:
       - .env
-
-
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
 volumes:
   pg_data:
